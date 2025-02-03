@@ -14,10 +14,11 @@ import java.util.Arrays;
 
 public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
 
-    public SlidingTile_GBFS() {
+    private final String heuristicType;
+    public SlidingTile_GBFS(String heuristicType) {
         super(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE),
-                new SortedQueue<>(new CompareEstimates(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE)))
-        );
+                new SortedQueue<>(new CompareEstimates(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE), heuristicType)));
+        this.heuristicType = heuristicType;
     }
 
     @Override
@@ -59,21 +60,23 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
 
     public static class CompareEstimates implements Comparator<Node<int[][], String>> {
         private final SlidingTilePuzzle problem;
+        private final String heuristicType;
 
-        public CompareEstimates(SlidingTilePuzzle problem) {
+        public CompareEstimates(SlidingTilePuzzle problem, String heuristicType) {
             this.problem = problem;
+            this.heuristicType = heuristicType;
         }
 
         @Override
         public int compare(Node<int[][], String> o1, Node<int[][], String> o2) {
-            int h1 = problem.heuristic(o1.getState());
-            int h2 = problem.heuristic(o2.getState());
+            int h1 = problem.getEstimatedDistance(o1.getState(), heuristicType);
+            int h2 = problem.getEstimatedDistance(o2.getState(), heuristicType);
             return Integer.compare(h1, h2);
         }
     }
 
     public static void main(String[] args) {
-        SlidingTile_GBFS solver = new SlidingTile_GBFS();
+        SlidingTile_GBFS solver = new SlidingTile_GBFS("misplacedTiles");
         solver.search();
     }
 }

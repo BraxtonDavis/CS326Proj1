@@ -87,8 +87,22 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
         return Arrays.deepEquals(state, goalState);
     }
 
-    // Heuristic function (Manhattan Distance)
-    public int heuristic(int[][] state) {
+    // Heuristic 1: Misplaced tiles
+    public int misplacedTiles(int[][] state) {
+        int h = 0;
+        int n = state.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (state[i][j] != 0 && state[i][j] != goalState[i][j]) {
+                    h++;
+                }
+            }
+        }
+        return h;
+    }
+
+    // Heuristic 2: Sum of distances
+    public int sumOfDistances(int[][] state) {
         int h = 0;
         int n = state.length;
         int goalRow, goalCol, currentRow, currentCol;
@@ -108,7 +122,13 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
         return h;
     }
 
-    public int getEstimatedDistance(int[][] state, int pathCost) {
-        return pathCost + heuristic(state);
+    public int getEstimatedDistance(int[][] state, String heuristicType) {
+        if (heuristicType.equals("misplacedTiles")) {
+            return misplacedTiles(state);
+        } else if (heuristicType.equals("sumOfDistances")) {
+            return sumOfDistances(state);
+        } else {
+            throw new IllegalArgumentException("Unknown heuristic type");
+        }
     }
 }
