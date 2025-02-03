@@ -30,7 +30,6 @@ public class SlidingTile_BFS extends BaseSearch<int[][], String> {
         while (!frontier.isEmpty()) {
             Node<int[][], String> node = frontier.poll();
             int[][] currentState = node.getState();
-            printState(node);
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
@@ -49,8 +48,6 @@ public class SlidingTile_BFS extends BaseSearch<int[][], String> {
                     frontier.add(succNode);
                     visited.add(stateKey);
 
-                    printAction(action);
-                    printState(succNode);
                 }
             }
         }

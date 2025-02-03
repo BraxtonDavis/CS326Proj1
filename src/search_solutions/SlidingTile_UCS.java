@@ -32,7 +32,6 @@ public class SlidingTile_UCS extends BaseSearch<int[][], String> {
         while (!frontier.isEmpty()) {
             Node<int[][], String> node = frontier.poll();
             int[][] currentState = node.getState();
-            printState(node);
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
@@ -51,9 +50,6 @@ public class SlidingTile_UCS extends BaseSearch<int[][], String> {
                     Node<int[][], String> succNode = new Node<>(succState, action, newCost, node);
                     frontier.add(succNode);
                     visited.put(stateKey, newCost);
-
-                    printAction(action);
-                    printState(succNode);
                 }
             }
         }

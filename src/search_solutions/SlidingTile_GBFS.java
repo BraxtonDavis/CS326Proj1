@@ -35,7 +35,6 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
         while (!frontier.isEmpty()) {
             Node<int[][], String> node = frontier.poll();
             int[][] currentState = node.getState();
-            printState(node);
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
@@ -54,8 +53,6 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
                     frontier.add(succNode);
                     visited.add(stateKey);
 
-                    printAction(action);
-                    printState(succNode);
                 }
             }
         }
@@ -93,7 +90,7 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
     }
 
     public static void main(String[] args) {
-        SlidingTile_GBFS solver = new SlidingTile_GBFS("misplacedTiles");
+        SlidingTile_GBFS solver = new SlidingTile_GBFS("sumOfDistances");
         solver.search();
     }
 }

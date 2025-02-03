@@ -30,7 +30,6 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
         int size = state.length;
         int blankRow = -1, blankCol = -1;
 
-        // Find the blank tile (0)
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (state[i][j] == 0) {
@@ -42,7 +41,7 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
         }
 
         int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
-        String[] moveNames = { "Up", "Down", "Left", "Right" }; // Action names as Strings
+        String[] moveNames = { "Up", "Down", "Left", "Right" };
 
         for (int i = 0; i < directions.length; i++) {
             int newRow = blankRow + directions[i][0];
@@ -86,7 +85,6 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
         return Arrays.deepEquals(state, goalState);
     }
 
-    // Heuristic 1: Misplaced tiles
     public int misplacedTiles(int[][] state) {
         int h = 0;
         int n = state.length;
@@ -100,7 +98,6 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
         return h;
     }
 
-    // Heuristic 2: Sum of distances
     public int sumOfDistances(int[][] state) {
         int h = 0;
         int n = state.length;

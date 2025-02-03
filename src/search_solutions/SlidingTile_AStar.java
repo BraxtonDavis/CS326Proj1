@@ -35,7 +35,6 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
         while (!frontier.isEmpty()) {
             Node<int[][], String> node = frontier.poll();
             int[][] currentState = node.getState();
-            printState(node);
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
@@ -49,13 +48,12 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
                 String action = succ.getAction();
                 String stateKey = Arrays.deepToString(succState);
 
+                // Avoid revisiting states
                 if (!visited.contains(stateKey)) {
-                    Node<int[][], String> succNode = new Node<>(succState, action, node.getPathCost() + succ.getCost(), node);
+                    int pathCost = node.getPathCost() + succ.getCost();
+                    Node<int[][], String> succNode = new Node<>(succState, action, pathCost, node);
                     frontier.add(succNode);
                     visited.add(stateKey);
-
-                    printAction(action);
-                    printState(succNode);
                 }
             }
         }
@@ -90,12 +88,12 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
             int h2 = problem.getEstimatedDistance(o2.getState(), heuristicType);
             int cost1 = o1.getPathCost();
             int cost2 = o2.getPathCost();
-            return Integer.compare(h1 + cost1, h2 + cost2);
+            return Integer.compare((cost1 + h1), (cost2 + h2));
         }
     }
 
     public static void main(String[] args) {
-        SlidingTile_AStar solver = new SlidingTile_AStar("misplacedTiles");
+        SlidingTile_AStar solver = new SlidingTile_AStar("sumOfDistances");
         solver.search();
     }
 }

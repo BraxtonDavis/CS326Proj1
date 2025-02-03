@@ -14,20 +14,13 @@ public abstract class BaseSearch<S, A> {
     }
 
     public abstract void search();
-    protected void printState(Node<S, A> node) {
-        System.out.println("Current State:");
-        problem.printState(node.getState());
-    }
 
-    protected void printAction(A action) {
-        System.out.println("Action: " + action);
-    }
 
     protected void printGoal() {
         System.out.println("Goal reached!");
     }
 
     protected void printNoSolution() {
-        System.out.println("No solution found.");
+        System.out.println("No solution found");
     }
 }
