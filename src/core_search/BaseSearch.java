@@ -20,6 +20,7 @@ public abstract class BaseSearch<S, A> {
         System.out.println("Goal reached!");
     }
 
+
     protected void printNoSolution() {
         System.out.println("No solution found");
     }

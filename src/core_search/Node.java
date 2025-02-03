@@ -5,26 +5,24 @@ import java.util.Objects;
 public class Node<S, A> {
     private final S state;
     private final A action;
-    private final int pathCost; // Used for BFS
-    private final int depth;    // Used for DFS
+    private final int pathCost;
+    private final int depth;
     private final Node<S, A> parent;
 
-    // Constructor for BFS (using pathCost)
     public Node(S state, A action, int pathCost, Node<S, A> parent) {
         this.state = state;
         this.action = action;
         this.pathCost = pathCost;
         this.parent = parent;
-        this.depth = -1; // No depth in BFS
+        this.depth = -1;
     }
 
-    // Constructor for DFS (using depth)
     public Node(S state, A action, int depth, Node<S, A> parent, boolean isDFS) {
         this.state = state;
         this.action = action;
         this.depth = depth;
         this.parent = parent;
-        this.pathCost = -1; // No pathCost in DFS
+        this.pathCost = -1;
     }
 
     public S getState() {

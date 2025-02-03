@@ -2,17 +2,16 @@ package core_search;
 
 import java.util.*;
 
-public class SortedQueue<S, A> extends MyPriorityQueue<S, A> implements Queue<Node<S, A>> {  // Implement Queue
+public class SortedQueue<S, A> extends MyPriorityQueue<S, A> implements Queue<Node<S, A>> {
     private final PriorityQueue<Node<S, A>> queue;
 
     public SortedQueue(Comparator<Node<S, A>> c) {
         this.queue = new PriorityQueue<>(c);
     }
 
-    // We don't need to call super.add here, as it's already defined in MyPriorityQueue
     @Override
     public boolean add(Node<S, A> e) {
-        return queue.add(e);  // Directly adding to the internal priority queue
+        return queue.add(e);
     }
 
     @Override
@@ -63,7 +62,7 @@ public class SortedQueue<S, A> extends MyPriorityQueue<S, A> implements Queue<No
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return queue.containsAll(c);  // Only one definition is needed
+        return queue.containsAll(c);
     }
 
     @Override

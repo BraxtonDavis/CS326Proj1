@@ -93,7 +93,7 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
     }
 
     public static void main(String[] args) {
-        SlidingTile_AStar solver = new SlidingTile_AStar("sumOfDistances");
+        SlidingTile_AStar solver = new SlidingTile_AStar("misplacedTiles");
         solver.search();
     }
 }
