@@ -86,4 +86,25 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
     public boolean equals(int[][] state, int[][] goalState) {
         return Arrays.deepEquals(state, goalState);
     }
+    public int heuristic(int[][] state) {
+        int h = 0;
+        int n = state.length;
+        int goalRow, goalCol, currentRow, currentCol;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int value = state[i][j];
+                if (value != 0) {
+                    goalRow = (value - 1) / n;
+                    goalCol = (value - 1) % n;
+                    currentRow = i;
+                    currentCol = j;
+                    h += Math.abs(goalRow - currentRow) + Math.abs(goalCol - currentCol);
+                }
+            }
+        }
+        return h;
+    }
+
+
 }
