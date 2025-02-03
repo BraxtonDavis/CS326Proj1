@@ -48,7 +48,6 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
                 String action = succ.getAction();
                 String stateKey = Arrays.deepToString(succState);
 
-                // Avoid revisiting states
                 if (!visited.contains(stateKey)) {
                     int pathCost = node.getPathCost() + succ.getCost();
                     Node<int[][], String> succNode = new Node<>(succState, action, pathCost, node);

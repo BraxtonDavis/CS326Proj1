@@ -15,6 +15,8 @@ public abstract class BaseSearch<S, A> {
 
     public abstract void search();
 
+    south
+
 
     protected void printGoal() {
         System.out.println("Goal reached!");
