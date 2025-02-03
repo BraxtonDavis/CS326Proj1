@@ -9,6 +9,7 @@ import core_search.Tuple;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Arrays;
 
 public class SlidingTile_DFS extends BaseSearch<int[][], String> {
 
@@ -21,26 +22,33 @@ public class SlidingTile_DFS extends BaseSearch<int[][], String> {
         Node<int[][], String> startNode = new Node<>(problem.initialState(), null, 0, null, true); // Using DFS constructor
         frontier.add(startNode);
 
-        Set<int[][]> visited = new HashSet<>();
+        Set<String> visited = new HashSet<>();
+        visited.add(Arrays.deepToString(problem.initialState()));
 
         while (!frontier.isEmpty()) {
             Node<int[][], String> currentNode = frontier.remove();
+            int[][] currentState = currentNode.getState();
             printState(currentNode);
 
-            if (problem.equals(currentNode.getState(), problem.goalState())) {
+            if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
                 return;
             }
 
-            visited.add(currentNode.getState());
-
-            List<Tuple<int[][], String>> successors = problem.execution(currentNode.getState());
+            List<Tuple<int[][], String>> successors = problem.execution(currentState);
 
             for (Tuple<int[][], String> successor : successors) {
                 int[][] successorState = successor.getState();
-                if (!visited.contains(successorState)) {
+                String stateKey = Arrays.deepToString(successorState);
+
+                if (!visited.contains(stateKey)) {
+                    visited.add(stateKey);
+
                     Node<int[][], String> successorNode = new Node<>(successorState, successor.getAction(), currentNode.getDepth() + 1, currentNode, true);
                     frontier.add(successorNode);
+
+                    printAction(successor.getAction());
+                    printState(successorNode);
                 }
             }
         }
