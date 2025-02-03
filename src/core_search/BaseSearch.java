@@ -1,5 +1,7 @@
 package core_search;
 
+import search_problems.Problem;
+
 import java.util.Queue;
 
 public abstract class BaseSearch<S, A> {

@@ -1,4 +1,6 @@
-package core_search;
+package search_problems;
+
+import core_search.Tuple;
 
 import java.util.List;
 

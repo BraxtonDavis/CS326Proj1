@@ -1,6 +1,5 @@
 package search_problems;
 
-import core_search.Problem;
 import core_search.Tuple;
 import java.util.ArrayList;
 import java.util.List;
