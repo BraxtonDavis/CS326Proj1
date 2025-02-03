@@ -1,112 +1,108 @@
-/* package core_search;
+package core_search;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
+public class FILOQueue<S, A> implements Queue<Node<S, A>> {
+    private final Stack<Node<S, A>> myQueue = new Stack<>();
 
-public class FILOQueue<S, A> extends MyPriorityQueue<S, A> implements Queue<Node<int[][], String>> {
-    private final LinkedList<Node<S, A>> stack = new LinkedList<>();  // Use a stack for DFS
-
-    @Override
-    public void add(Node<S, A> node) {
-        stack.addFirst(node);  // FILO (stack) behavior
+    public Node<S, A> pop() {
+        if (myQueue.isEmpty()) {
+            return null;
+        }
+        return myQueue.pop();
     }
 
     @Override
-    public Node<S, A> pop() {
-        return stack.pollFirst();  // Remove the last inserted element (LIFO)
+    public boolean add(Node<S, A> e) {
+        myQueue.push(e);
+        return true;
     }
 
     @Override
     public int size() {
-        return 0;
+        return myQueue.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return stack.isEmpty();
+        return myQueue.isEmpty();
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return myQueue.contains(o);
     }
 
     @Override
-    public Iterator<Node<int[][], String>> iterator() {
-        return null;
+    public Iterator<Node<S, A>> iterator() {
+        return myQueue.iterator();
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return myQueue.toArray();
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
-    }
-
-    @Override
-    public boolean add(Node<int[][], String> stringNode) {
-        return false;
+        return myQueue.toArray(a);
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        return myQueue.remove(o);
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        return myQueue.containsAll(c);
     }
 
     @Override
-    public boolean addAll(Collection<? extends Node<int[][], String>> c) {
-        return false;
+    public boolean addAll(Collection<? extends Node<S, A>> c) {
+        return myQueue.addAll(c);
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        return myQueue.removeAll(c);
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        return myQueue.retainAll(c);
     }
 
     @Override
     public void clear() {
-
+        myQueue.clear();
     }
 
     @Override
-    public boolean offer(Node<int[][], String> stringNode) {
-        return false;
+    public boolean offer(Node<S, A> e) {
+        return myQueue.push(e) != null;
     }
 
     @Override
-    public Node<int[][], String> remove() {
-        return null;
+    public Node<S, A> remove() {
+        return myQueue.pop();
     }
 
     @Override
-    public Node<int[][], String> poll() {
-        return null;
+    public Node<S, A> poll() {
+        return myQueue.isEmpty() ? null : myQueue.pop();
     }
 
     @Override
-    public Node<int[][], String> element() {
-        return null;
+    public Node<S, A> element() {
+        return myQueue.peek();
     }
 
     @Override
-    public Node<int[][], String> peek() {
-        return null;
+    public Node<S, A> peek() {
+        return myQueue.peek();
     }
 }
-*/
