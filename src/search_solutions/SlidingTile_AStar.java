@@ -5,6 +5,7 @@ import core_search.Node;
 import core_search.SortedQueue;
 import search_problems.SlidingTilePuzzle;
 import core_search.Tuple;
+import search_problems.PuzzleConfig;  // Import the PuzzleConfig class
 
 import java.util.Comparator;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.Arrays;
 
 public class SlidingTile_AStar extends BaseSearch<int[][], String> {
 
-    public SlidingTile_AStar(int[][] initialState, int[][] goalState) {
-        super(new SlidingTilePuzzle(initialState, goalState),
-                new SortedQueue<>(new CompareDistances(new SlidingTilePuzzle(initialState, goalState)))
+    public SlidingTile_AStar() {
+        super(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE),
+                new SortedQueue<>(new CompareDistances(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE)))
         );
     }
 
@@ -73,18 +74,7 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
     }
 
     public static void main(String[] args) {
-        int[][] initialState = {
-                {7, 2, 4},
-                {5, 0, 6},
-                {8, 3, 1}
-        };
-        int[][] goalState = {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 0}
-        };
-
-        SlidingTile_AStar solver = new SlidingTile_AStar(initialState, goalState);
+        SlidingTile_AStar solver = new SlidingTile_AStar();
         solver.search();
     }
 }

@@ -5,7 +5,7 @@ import core_search.Node;
 import core_search.SortedQueue;
 import search_problems.SlidingTilePuzzle;
 import core_search.Tuple;
-
+import search_problems.PuzzleConfig;
 import java.util.Comparator;
 import java.util.List;
 import java.util.HashSet;
@@ -14,9 +14,9 @@ import java.util.Arrays;
 
 public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
 
-    public SlidingTile_GBFS(int[][] initialState, int[][] goalState) {
-        super(new SlidingTilePuzzle(initialState, goalState),
-                new SortedQueue<>(new CompareHeuristic(new SlidingTilePuzzle(initialState, goalState)))
+    public SlidingTile_GBFS() {
+        super(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE),
+                new SortedQueue<>(new CompareEstimates(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE)))
         );
     }
 
@@ -57,10 +57,10 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
         printNoSolution();
     }
 
-    public static class CompareHeuristic implements Comparator<Node<int[][], String>> {
+    public static class CompareEstimates implements Comparator<Node<int[][], String>> {
         private final SlidingTilePuzzle problem;
 
-        public CompareHeuristic(SlidingTilePuzzle problem) {
+        public CompareEstimates(SlidingTilePuzzle problem) {
             this.problem = problem;
         }
 
@@ -73,18 +73,7 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
     }
 
     public static void main(String[] args) {
-        int[][] initialState = {
-                {7, 2, 4},
-                {5, 0, 6},
-                {8, 3, 1}
-        };
-        int[][] goalState = {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 0}
-        };
-
-        SlidingTile_GBFS solver = new SlidingTile_GBFS(initialState, goalState);
+        SlidingTile_GBFS solver = new SlidingTile_GBFS();
         solver.search();
     }
 }

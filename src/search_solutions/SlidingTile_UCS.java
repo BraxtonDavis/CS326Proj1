@@ -2,11 +2,10 @@ package search_solutions;
 
 import core_search.BaseSearch;
 import core_search.Node;
-
 import core_search.SortedQueue;
 import search_problems.SlidingTilePuzzle;
 import core_search.Tuple;
-
+import search_problems.PuzzleConfig;
 import java.util.Comparator;
 import java.util.List;
 import java.util.HashSet;
@@ -15,8 +14,10 @@ import java.util.Arrays;
 
 public class SlidingTile_UCS extends BaseSearch<int[][], String> {
 
-    public SlidingTile_UCS(int[][] initialState, int[][] goalState) {
-        super(new SlidingTilePuzzle(initialState, goalState), new SortedQueue<>(new ComparePathCost()));
+    public SlidingTile_UCS() {
+        super(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE),
+                new SortedQueue<>(new ComparePathCost(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE)))
+        );
     }
 
     @Override
@@ -56,26 +57,21 @@ public class SlidingTile_UCS extends BaseSearch<int[][], String> {
         printNoSolution();
     }
 
-    public static void main(String[] args) {
-        int[][] initialState = {
-                {7, 2, 4},
-                {5, 0, 6},
-                {8, 3, 1}
-        };
-        int[][] goalState = {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 0}
-        };
-
-        SlidingTile_UCS solver = new SlidingTile_UCS(initialState, goalState);
-        solver.search();
-    }
-
     public static class ComparePathCost implements Comparator<Node<int[][], String>> {
+        private final SlidingTilePuzzle problem;
+
+        public ComparePathCost(SlidingTilePuzzle problem) {
+            this.problem = problem;
+        }
+
         @Override
         public int compare(Node<int[][], String> o1, Node<int[][], String> o2) {
             return Integer.compare(o1.getPathCost(), o2.getPathCost());
         }
+    }
+
+    public static void main(String[] args) {
+        SlidingTile_UCS solver = new SlidingTile_UCS();
+        solver.search();
     }
 }

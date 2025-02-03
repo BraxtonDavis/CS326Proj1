@@ -5,6 +5,7 @@ import core_search.FILOQueue;
 import core_search.Node;
 import search_problems.SlidingTilePuzzle;
 import core_search.Tuple;
+import search_problems.PuzzleConfig;
 
 import java.util.HashSet;
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.Arrays;
 
 public class SlidingTile_DFS extends BaseSearch<int[][], String> {
 
-    public SlidingTile_DFS(int[][] initialState, int[][] goalState) {
-        super(new SlidingTilePuzzle(initialState, goalState), new FILOQueue<>());
+    public SlidingTile_DFS() {
+        super(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE), new FILOQueue<>());
     }
 
     @Override
@@ -57,18 +58,7 @@ public class SlidingTile_DFS extends BaseSearch<int[][], String> {
     }
 
     public static void main(String[] args) {
-        int[][] initialState = {
-                {7, 2, 4},
-                {5, 0, 6},
-                {8, 3, 1}
-        };
-        int[][] goalState = {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 0}
-        };
-
-        SlidingTile_DFS solver = new SlidingTile_DFS(initialState, goalState);
+        SlidingTile_DFS solver = new SlidingTile_DFS();
         solver.search();
     }
 }
