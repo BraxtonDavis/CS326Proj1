@@ -29,7 +29,6 @@ public class SortedQueue<S, A> extends MyPriorityQueue<S, A> implements Queue<No
         return queue.isEmpty();
     }
 
-    // Implement other methods from the Queue interface
     @Override
     public int size() {
         return queue.size();
