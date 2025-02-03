@@ -6,11 +6,12 @@ import core_search.Node;
 import core_search.Tuple;
 import search_problems.SlidingTilePuzzle;
 import search_problems.PuzzleConfig;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SlidingTile_BFS extends BaseSearch<int[][], String> {
 
@@ -33,6 +34,7 @@ public class SlidingTile_BFS extends BaseSearch<int[][], String> {
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
+                printSolutionPath(node);
                 return;
             }
 
@@ -53,6 +55,19 @@ public class SlidingTile_BFS extends BaseSearch<int[][], String> {
             }
         }
         printNoSolution();
+    }
+
+    private void printSolutionPath(Node<int[][], String> goalNode) {
+        List<String> path = new ArrayList<>();
+        Node<int[][], String> currentNode = goalNode;
+
+        while (currentNode.getParent() != null) {
+            path.add(currentNode.getAction());
+            currentNode = currentNode.getParent();
+        }
+
+        Collections.reverse(path);
+        System.out.println("Solution Path: " + String.join(" -> ", path));
     }
 
     public static void main(String[] args) {

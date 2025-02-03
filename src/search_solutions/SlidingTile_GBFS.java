@@ -11,10 +11,13 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
 
     private final String heuristicType;
+
     public SlidingTile_GBFS(String heuristicType) {
         super(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE),
                 new SortedQueue<>(new CompareEstimates(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE), heuristicType)));
@@ -36,6 +39,7 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
+                printSolutionPath(node);
                 return;
             }
 
@@ -46,7 +50,7 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
                 String stateKey = Arrays.deepToString(succState);
 
                 if (!visited.contains(stateKey)) {
-                    Node<int[][], String> succNode = new Node<>(succState, action, node.getPathCost() + succ.getCost(), node);
+                    Node<int[][], String> succNode = new Node<>(succState, action, 0, node);
                     frontier.add(succNode);
                     visited.add(stateKey);
 
@@ -56,6 +60,19 @@ public class SlidingTile_GBFS extends BaseSearch<int[][], String> {
             }
         }
         printNoSolution();
+    }
+
+    private void printSolutionPath(Node<int[][], String> goalNode) {
+        List<String> path = new ArrayList<>();
+        Node<int[][], String> currentNode = goalNode;
+
+        while (currentNode.getParent() != null) {
+            path.add(currentNode.getAction());
+            currentNode = currentNode.getParent();
+        }
+
+        Collections.reverse(path);
+        System.out.println("Solution Path: " + String.join(" -> ", path));
     }
 
     public static class CompareEstimates implements Comparator<Node<int[][], String>> {

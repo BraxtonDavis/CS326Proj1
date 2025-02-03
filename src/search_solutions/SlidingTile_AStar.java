@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SlidingTile_AStar extends BaseSearch<int[][], String> {
 
     private final String heuristicType;
 
-    // Constructor with heuristic type
     public SlidingTile_AStar(String heuristicType) {
-        // Initialize SlidingTilePuzzle with PuzzleConfig states
         super(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE),
                 new SortedQueue<>(new CompareDistances(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE), heuristicType)));
         this.heuristicType = heuristicType;
@@ -39,6 +39,7 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
+                printSolutionPath(node);
                 return;
             }
 
@@ -61,7 +62,19 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
         printNoSolution();
     }
 
-    // Comparator for A* to consider both the path cost and heuristic estimate
+    private void printSolutionPath(Node<int[][], String> goalNode) {
+        List<String> path = new ArrayList<>();
+        Node<int[][], String> currentNode = goalNode;
+
+        while (currentNode.getParent() != null) {
+            path.add(currentNode.getAction());
+            currentNode = currentNode.getParent();
+        }
+
+        Collections.reverse(path);
+        System.out.println("Solution Path: " + String.join(" -> ", path));
+    }
+
     public static class CompareDistances implements Comparator<Node<int[][], String>> {
         private final SlidingTilePuzzle problem;
         private final String heuristicType;
@@ -73,19 +86,16 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
 
         @Override
         public int compare(Node<int[][], String> o1, Node<int[][], String> o2) {
-            // Get heuristic distance for both nodes
             int h1 = problem.getEstimatedDistance(o1.getState(), heuristicType);
             int h2 = problem.getEstimatedDistance(o2.getState(), heuristicType);
-            // Get the path cost for both nodes
             int cost1 = o1.getPathCost();
             int cost2 = o2.getPathCost();
-            // Compare the sum of path cost and heuristic distance (A* formula)
             return Integer.compare(h1 + cost1, h2 + cost2);
         }
     }
 
     public static void main(String[] args) {
-        SlidingTile_AStar solver = new SlidingTile_AStar("misplacedTiles"); // Or "sumOfDistances"
+        SlidingTile_AStar solver = new SlidingTile_AStar("misplacedTiles");
         solver.search();
     }
 }

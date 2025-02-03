@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SlidingTile_DFS extends BaseSearch<int[][], String> {
 
@@ -20,7 +22,7 @@ public class SlidingTile_DFS extends BaseSearch<int[][], String> {
 
     @Override
     public void search() {
-        Node<int[][], String> startNode = new Node<>(problem.initialState(), null, 0, null, true); // Using DFS constructor
+        Node<int[][], String> startNode = new Node<>(problem.initialState(), null, 0, null, true);
         frontier.add(startNode);
 
         Set<String> visited = new HashSet<>();
@@ -33,6 +35,7 @@ public class SlidingTile_DFS extends BaseSearch<int[][], String> {
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
+                printSolutionPath(currentNode);
                 return;
             }
 
@@ -45,7 +48,8 @@ public class SlidingTile_DFS extends BaseSearch<int[][], String> {
                 if (!visited.contains(stateKey)) {
                     visited.add(stateKey);
 
-                    Node<int[][], String> successorNode = new Node<>(successorState, successor.getAction(), currentNode.getDepth() + 1, currentNode, true);
+                    Node<int[][], String> successorNode = new Node<>(successorState, successor.getAction(),
+                            currentNode.getDepth() + 1, currentNode, true);
                     frontier.add(successorNode);
 
                     printAction(successor.getAction());
@@ -55,6 +59,19 @@ public class SlidingTile_DFS extends BaseSearch<int[][], String> {
         }
 
         printNoSolution();
+    }
+
+    private void printSolutionPath(Node<int[][], String> goalNode) {
+        List<String> path = new ArrayList<>();
+        Node<int[][], String> currentNode = goalNode;
+
+        while (currentNode.getParent() != null) {
+            path.add(currentNode.getAction());
+            currentNode = currentNode.getParent();
+        }
+
+        Collections.reverse(path);
+        System.out.println("Solution Path: " + String.join(" -> ", path));
     }
 
     public static void main(String[] args) {
