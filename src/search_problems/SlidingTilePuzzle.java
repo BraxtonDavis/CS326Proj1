@@ -86,6 +86,8 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
     public boolean equals(int[][] state, int[][] goalState) {
         return Arrays.deepEquals(state, goalState);
     }
+
+    // Heuristic function (Manhattan Distance)
     public int heuristic(int[][] state) {
         int h = 0;
         int n = state.length;
@@ -106,5 +108,7 @@ public class SlidingTilePuzzle implements Problem<int[][], String> {
         return h;
     }
 
-
+    public int getEstimatedDistance(int[][] state, int pathCost) {
+        return pathCost + heuristic(state);
+    }
 }
