@@ -14,9 +14,8 @@ public class Node<S, A> {
         this.action = action;
         this.pathCost = pathCost;
         this.parent = parent;
-        this.depth = -1;
+        this.depth = (parent == null ? 0 : parent.getDepth() + 1);
     }
-
     public Node(S state, A action, int depth, Node<S, A> parent, boolean isDFS) {
         this.state = state;
         this.action = action;
@@ -50,7 +49,11 @@ public class Node<S, A> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node<?, ?> node = (Node<?, ?>) o;
-        return pathCost == node.pathCost && depth == node.depth && Objects.equals(state, node.state) && Objects.equals(action, node.action) && Objects.equals(parent, node.parent);
+        return pathCost == node.pathCost &&
+                depth == node.depth &&
+                Objects.equals(state, node.state) &&
+                Objects.equals(action, node.action) &&
+                Objects.equals(parent, node.parent);
     }
 
     @Override

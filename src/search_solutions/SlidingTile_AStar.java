@@ -60,16 +60,23 @@ public class SlidingTile_AStar extends BaseSearch<int[][], String> {
     }
 
     private void printSolutionPath(Node<int[][], String> goalNode) {
-        List<String> path = new ArrayList<>();
+        List<Node<int[][], String>> path = new ArrayList<>();
         Node<int[][], String> currentNode = goalNode;
 
-        while (currentNode.getParent() != null) {
-            path.add(currentNode.getAction());
+        while (currentNode != null) {
+            path.add(currentNode);
             currentNode = currentNode.getParent();
         }
 
         Collections.reverse(path);
-        System.out.println("Solution Path: " + String.join(" -> ", path));
+
+        System.out.println("Solution Path:");
+        for (Node<int[][], String> node : path) {
+            if (node.getAction() != null) {
+                System.out.println("Move: " + node.getAction());
+            }
+            problem.printState(node.getState());
+        }
     }
 
     public static class CompareDistances implements Comparator<Node<int[][], String>> {

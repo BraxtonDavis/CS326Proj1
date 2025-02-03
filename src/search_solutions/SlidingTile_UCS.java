@@ -1,5 +1,4 @@
 package search_solutions;
-
 import core_search.BaseSearch;
 import core_search.Node;
 import core_search.SortedQueue;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class SlidingTile_UCS extends BaseSearch<int[][], String> {
-
     public SlidingTile_UCS() {
         super(new SlidingTilePuzzle(PuzzleConfig.INITIAL_STATE, PuzzleConfig.GOAL_STATE),
                 new SortedQueue<>(new ComparePathCost())
@@ -25,13 +23,18 @@ public class SlidingTile_UCS extends BaseSearch<int[][], String> {
     public void search() {
         Node<int[][], String> initialNode = new Node<>(problem.initialState(), null, 0, null);
         frontier.add(initialNode);
-
         HashMap<String, Integer> visited = new HashMap<>();
-        visited.put(Arrays.deepToString(problem.initialState()), 0);
 
         while (!frontier.isEmpty()) {
             Node<int[][], String> node = frontier.poll();
             int[][] currentState = node.getState();
+            String stateKey = Arrays.deepToString(currentState);
+
+            if (visited.containsKey(stateKey) && node.getPathCost() > visited.get(stateKey)) {
+                continue;
+            }
+
+            visited.put(stateKey, node.getPathCost());
 
             if (Arrays.deepEquals(currentState, problem.goalState())) {
                 printGoal();
@@ -43,13 +46,12 @@ public class SlidingTile_UCS extends BaseSearch<int[][], String> {
             for (Tuple<int[][], String> succ : successors) {
                 int[][] succState = succ.getState();
                 String action = succ.getAction();
-                String stateKey = Arrays.deepToString(succState);
+                String succKey = Arrays.deepToString(succState);
                 int newCost = node.getPathCost() + succ.getCost();
 
-                if (!visited.containsKey(stateKey) || newCost < visited.get(stateKey)) {
+                if (!visited.containsKey(succKey) || newCost < visited.get(succKey)) {
                     Node<int[][], String> succNode = new Node<>(succState, action, newCost, node);
                     frontier.add(succNode);
-                    visited.put(stateKey, newCost);
                 }
             }
         }
@@ -57,16 +59,20 @@ public class SlidingTile_UCS extends BaseSearch<int[][], String> {
     }
 
     private void printSolutionPath(Node<int[][], String> goalNode) {
-        List<String> path = new ArrayList<>();
+        List<Node<int[][], String>> path = new ArrayList<>();
         Node<int[][], String> currentNode = goalNode;
-
-        while (currentNode.getParent() != null) {
-            path.add(currentNode.getAction());
+        while (currentNode != null) {
+            path.add(currentNode);
             currentNode = currentNode.getParent();
         }
-
         Collections.reverse(path);
-        System.out.println("Solution Path: " + String.join(" -> ", path));
+        System.out.println("Solution Path:");
+        for (Node<int[][], String> node : path) {
+            if (node.getAction() != null) {
+                System.out.println("Move: " + node.getAction());
+            }
+            problem.printState(node.getState());
+        }
     }
 
     public static class ComparePathCost implements Comparator<Node<int[][], String>> {
